@@ -1,8 +1,7 @@
 import logging
+import functions.texttospeech as tts
+import movie as movie
 
-from gtts import gTTS
-from moviepy.editor import (CompositeVideoClip, TextClip, VideoFileClip,
-                            concatenate_videoclips)
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -10,47 +9,29 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+working_folder = 'test'
 
 
 # text to speech
-text = 'The quick brown fox jumped over the lazy dog.'
+url = 'https://www.reddit.com/r/AskReddit/comments/w68jfd/what_video_game_do_you_consider_a_masterpiece/'
 
-def tts(text, output):
-    language = 'en'
-    domain = 'com'
-    output_path = f"files/{output}.mp3"
+title = ['What video game do you consider a masterpiece?']
 
-    logging.info(f"Creating audio.")
+text = [
+    'Portal 2',
+    'Age of empires 2',
+    'Original Halo. Felt like you were in a movie',
+    'Man i miss Valve... Their games were designed in a way many developers could only dream of, they were revolutionary in almost everything they laid their hands on.',
+    'Roller Coaster Tycoon 2',
+    'Zelda Ocarina of time',
+    'Original bioshock',
+    'Half-Life (1998)'
+]
 
-    audio = gTTS(text=text, tld=domain, lang=language, slow=False)
-    audio.save(output_path)
+texts = title + text
 
-    logging.info(f"Audio saved in {output_path}")
-
-# tts(text, 'test')
+tts.tts(texts, working_folder)
 
 
-# movie py
 
-def movie():
-    logging.info(f"Creating video.")
-
-    clip1 = VideoFileClip("files/Grass.mp4").subclip(0, 2)
-    clip2 = VideoFileClip("files/Grass.mp4").subclip(10, 13)
-    combine = concatenate_videoclips([clip1, clip2])
-
-    # add text
-    txt = TextClip('Hello everyone!', font='Arial', fontsize=120, color='white', bg_color='gray35')
-    txt = txt.set_position(('center', 'center'), relative=True)
-    txt = txt.set_start((0,0)) # (min, s)
-    txt = txt.set_duration(4)
-    txt = txt.crossfadein(0.5)
-    txt = txt.crossfadeout(0.5)
-
-    combine = CompositeVideoClip([combine, txt])
-
-    combine.write_videofile("files/video.mp4")
-
-    logging.info(f"Saved video.")
-
-movie()
+# movie.movie()
