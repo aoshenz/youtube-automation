@@ -30,6 +30,8 @@ class Movie:
         """
         language = "en"
         domain = "com"
+
+        #TODO: create folder if it doesn't exist
         output_folder = f"files/{self.folder}/audio"
 
         logging.info(f"Creating {len(text)} audio clips.")
@@ -77,24 +79,24 @@ class Movie:
         logging.info("Overlaying text screenshots on background video.")
 
         background = VideoFileClip(
-            f"files/{self.folder}/city.mp4", audio=False
-        ).subclip(0, self.audio_total_duration)
+            f"files/{self.folder}/background.mp4", audio=False
+        )
 
-        files = [f"files/{self.folder}/img/screen_{i}.png" for i in range(9)]
+        files = [f"files/{self.folder}/img/screen_{i}.png" for i in range(self.num_audio)]
 
         text_clips = []
         start_time = 0
         for f in range(len(files)):
 
             clip_duration = self.audio_total_duration - start_time
-            x_pos = random.uniform(0.1, 0.6)
-            y_pos = random.uniform(0.1, 0.7)
+            x_pos = random.uniform(0.05, 0.3)
+            y_pos = random.uniform(0.05, 0.7)
 
             img = (
                 ImageClip(files[f])
                 .set_start(start_time)
                 .set_duration(clip_duration)
-                .resize(0.5)
+                .resize(0.6)
                 .set_position((x_pos, y_pos), "relative")
             )
 

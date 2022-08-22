@@ -131,4 +131,4 @@ dmypy.json
 files
 
 secret*
-.DS_Store
+*.DS_Store*

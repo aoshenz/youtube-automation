@@ -10,19 +10,28 @@ logger = logging.getLogger(__name__)
 
 
 # text to speech
-url = "https://www.reddit.com/r/AskReddit/comments/w68jfd/what_video_game_do_you_consider_a_masterpiece/"
+# url = "https://www.reddit.com/r/AskReddit/comments/w68jfd/what_video_game_do_you_consider_a_masterpiece/"
 
-title = ["What video game do you consider a masterpiece?"]
+title = ["What movie blew your mind when you finished it?"]
 
 text = [
-    "Portal 2",
-    "Age of empires 2",
-    "Original Halo. Felt like you were in a movie",
-    "Man i miss Valve... Their games were designed in a way many developers could only dream of, they were revolutionary in almost everything they laid their hands on.",
-    "Roller Coaster Tycoon 2",
-    "Zelda Ocarina of time",
-    "Original bioshock",
-    "Half-Life (1998)",
+    "I remember walking out of the cinema thinking 'That was a waste of an evening' after watching The Others, only to spend the next week constantly thinking about it and going back the following weekend to watch it again. It was a very very slow blowing of my mind.",
+    "The matrix. Saw in in the theatre and walked out thinking, am I a battery?",
+    "The Prestige",
+    "Memento",
+    "Interstellar and Arrival.",
+    "The Sixth Sense",
+    "Shutter Island",
+    "The Truman show",
+    "I watched Blade Runner 2049 recently and haven't been able to stop thinking about it.",
+    "The Mist. Watched it only once in 2012 and every few months since, I'll suddenly remember that ending and feel strong emotions",
+    "The usual suspects.",
+    "Se7en",
+    "12 Monkeys. There were twists, yes, but it was also put together in a way I hadn’t seen experienced before.",
+    "Fight Club",
+    "Dark City",
+    "Eternal sunshine of the spotless mind",
+    "The Game"
 ]
 
 texts = title + text
@@ -30,7 +39,7 @@ texts = title + text
 
 def main():
 
-    movie = Movie("test")
+    movie = Movie("What movie blew your mind when you finished it")
 
     movie.tts(texts)
     movie.append_audio()
