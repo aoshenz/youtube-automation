@@ -21,8 +21,9 @@ logger = logging.getLogger(__name__)
 
 
 class Movie:
-    def __init__(self, folder: str):
+    def __init__(self, folder: str, bg_video: str = 'background.mp4'):
         self.folder = folder
+        self.bg_video = bg_video
 
     def tts(self, text: list):
         """
@@ -31,7 +32,7 @@ class Movie:
         language = "en"
         domain = "com"
 
-        #TODO: create folder if it doesn't exist
+        pathlib.Path(f"files/{self.folder}/audio").mkdir(parents=True, exist_ok=True)
         output_folder = f"files/{self.folder}/audio"
 
         logging.info(f"Creating {len(text)} audio clips.")
@@ -78,11 +79,11 @@ class Movie:
 
         logging.info("Overlaying text screenshots on background video.")
 
-        background = VideoFileClip(
-            f"files/{self.folder}/background.mp4", audio=False
-        )
+        background = VideoFileClip(f"files/{self.folder}/{self.bg_video}", audio=False)
 
-        files = [f"files/{self.folder}/img/screen_{i}.png" for i in range(self.num_audio)]
+        img_path = pathlib.Path(f"files/{self.folder}/img").glob('**/*png')
+        files = [str(p) for p in img_path]
+        files.sort()
 
         text_clips = []
         start_time = 0
@@ -90,7 +91,7 @@ class Movie:
 
             clip_duration = self.audio_total_duration - start_time
             x_pos = random.uniform(0.05, 0.3)
-            y_pos = random.uniform(0.05, 0.7)
+            y_pos = random.uniform(0.05, 0.6)
 
             img = (
                 ImageClip(files[f])
