@@ -20,5 +20,9 @@ if __name__ == "__main__":
     print("\n")
     print(movie.audio_total_duration)
 
-    movie.create_movie()
-    movie.output_movie()
+    movie.create_bg_video()
+
+    
+    # movie.create_movie()
+    # movie.output_movie()
+    # movie.output_config()

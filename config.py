@@ -1,52 +1,67 @@
 # Set up
 
-FOLDER = "What companies can go fuck themselves"
+FOLDER = "intelligence"
 
 BACKGROUND_VIDEO = "background.mov"
 
 # Content
-# url = "https://www.reddit.com/r/AskReddit/comments/w68jfd/what_video_game_do_you_consider_a_masterpiece/"
+URL = "https://www.reddit.com/r/AskReddit/comments/wlr2od/people_of_reddit_who_survive_on_less_than_8_hours/"
 
-TITLE = ["What companies can go fuck themselves?"]
+TITLE = ["What is incorrectly perceived as a sign of intelligence?"]
 
 # Seperate each new "screenshot" with 2 spaces i.e. \n\n
 TEXT = """
-Ticketmaster
-If the words “Convenience Charge” don’t fill you with rage, you’re part of the problem.
+Being in charge
+Always maintain a healthy skepticism for anyone claiming to be authority, at least till they prove themselves capable.
 
-FIFA, unbelievably corrupt, I don't even know where to start.
-I think FIFA, in this thread, is the definition of monopoly. I love football and so much about the energy of World Cup. But I 100% agree
+if someone’s in an authoritative position, it should be others that praise them and say how good they are, not themselves.
 
-Black Rock and any other companies currently trying to buy as many single-family homes as possible so that they manipulate housing prices and raise rents while being shit landlords.
+“I’m the best commenter that’s ever been. People always tell me, they say “VPman, that’s what they call me, they say VP, you always leave the best comments. They say that. Ask anyone, they’ll tell you. That’s why I’m happy to announce that I’m running for comment president again 2024. Let’s make comments great again, again.”
 
-Nestlé, horrible practices
-The worst thing is, if you want to boycott them, you need a fucking flowchart because they own so many food companies.
+Arrogance portrayed as confidence
+A truly intelligent person knows that there's things they don't know, and keeps trying to learn.
+An idiot refuses to acknowledge that there's anything they don't know, and fears doing anything that might prove it.
 
-Canadian chiming in, Bell/Bell Media. Liars and thieves.
-Once got an email Tuesday morning about how sad and difficult it is to lose coworkers (hundreds) due to layoffs.
-Got an email Wednesday morning touting how Q4 profits were through the roof as they congratulated executive
+If you’re the smartest person in the room, you’re in the wrong room!
+I’ll remember this when I lie alone in bed tonight
 
-Spectrum communications.
-Spectrum thinks I am just some dumb hick. They said that to me at a dinner.
+I’m living in China right now and everyone keeps calling me intelligent as I’m bald and left handed.
+Apparently bald = intelligent now
 
-fleshlight would make the most sense I suppose
-These are the type of comments I joined Reddit for tbh.
+The heat that smart people's brains give off burns off the hair
+Damn, no wonder I've got a full head of hair at 52.
+The self-burn humblebrag. Nicely executed!
 
-John Deere. People tend to think of Apple as the biggest opponent to the Right To Repair movement. Nah. Apple's got nothing on John Deere.
+Cornering people in arguments with bullying tactics and acting like it means they "won".
+The people that say "Ohhh sweety" in an arguement...
 
-United healthcare, LabCorps, Quest diagnostics,
-Blue cross of anything
-Can you tell I am in the medical billing environment?
+Or "do your research"
+"I'm not going to spoon feed it to you"
+(when someone makes a pretty spectacular claim and you ask them to back it up with a source)
 
-Nestle. because of what they do in africa, and also the fact that they manipulate parents that can't or dont want to breastfeed, into using their terrible alternative. pretty sure half of it is sugar. oh, and the CEO said that water isn't a human right.
-r/FuckNestle
+I hate this line of thought so much. You see it constantly on reddit with people like this. I once asked a dude in 3 separate comments to please link their source after I linked 5 sources refuting their claim. Each time I was told my sources were bad and they never provided one themselves
 
-Any MLM company
-Watching people you know turn into walking advertisements is sickening.
-Do you feel sick? I’m sure I have some oils to help you.
+Silence. I’ve been told so many times that I’m thoughtful and a deep thinker but really I can’t figure out what to say lol
+My girlfriend thinks my silence is me thinking hard or letting her sort her emotions out but it’s really me trying to think of anything to say but I’m a dumbass
 
-Deutsche Bank. Shamelessly invest in pretty much every evil project or person they possibly can.
-arent they notorious for money laundering for drug cartels and terrorist organizations
+Scoring an A when I was 14.
+Scoring an E when I was 24, and at a rave.
+
+Having money
+I know someone who is fairly wealthy. He has worked with several billionaires and other wealthy people. He told me that luck is a much more important factor than people realize. Of course some people work hard but most are just exceptionally lucky. Also, 9/10 times they are assholes.
+
+solving a rubiks cube
+True, I learnt how to do it quite fast once I looked on Google. It’s just consistent practice until you memorise it
+
+Strong opinions, held with confidence.
+80% of podcasts just screamed out in unison
+
+A cromulent vocabulary.
+This embiggens me.
+I chortled gleefully at this riposte.
+
+Having an opinion on literally everything. Especially having the need to share the opinions with everyone they encounter.
+One of my biggest pet peeves. And on the flip side, immediate respect goes out to anyone who is able to say they don't know enough about the topic to have a solid opinion.
 """
 
 TEXT = TEXT.split("\n\n")

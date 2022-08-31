@@ -2,6 +2,7 @@ import logging
 import pathlib
 import random
 from gtts import gTTS
+import shutil
 
 from moviepy.editor import (
     CompositeVideoClip,
@@ -72,7 +73,35 @@ class Movie:
 
         self.audio = CompositeAudioClip(audio_sound)
         self.audio_duration = audio_duration
-        self.audio_total_duration = sum(self.audio_duration.values())
+        self.audio_total_duration = int(sum(self.audio_duration.values()))
+    
+    def create_bg_video(self):
+        """Create background video based on length of audio."""
+        logging.info("Creating background video.")
+
+        bg_clips = pathlib.Path(f"files/bg_clips/").glob('**/*mp4')
+        bg_clips = [str(p) for p in bg_clips]
+
+        logging.info(f"Number of background clips: {len(bg_clips)}")
+
+        bg_clip_length = 0
+        while bg_clip_length < self.audio_total_duration + 10: # 10 second buffer
+            random_int = random.randint(0, len(bg_clips) - 1)
+            random_path = bg_clips[random_int]
+
+            bg = VideoFileClip(random_path, audio=False)
+
+            if bg_clip_length == 0:
+                combined_bg = bg
+                bg_clip_length += int(combined_bg.duration)
+            else:
+                combined_bg = concatenate_videoclips([combined_bg, bg])
+                bg_clip_length += int(combined_bg.duration)
+            
+            logging.info(f"Using: {random_path}")
+            logging.info(f"Total background clip length: {bg_clip_length}")
+        
+        self.bg_video = combined_bg.set_end(self.audio_total_duration + 10) # 10 second buffer
 
     def create_movie(self):
         """Overlay text screenshots on background video."""
@@ -123,3 +152,15 @@ class Movie:
 
         self.movie.close()
         self.audio.close()
+
+        logging.info("Video saved.")
+
+    def output_config(self):
+        """Output config for reproducibility."""
+
+        logging.info(f"Outputting config.")
+
+        config_file = "config.py"
+        copy_config_file = f"files/{self.folder}/"
+        shutil.copy(config_file, copy_config_file)
+        logging.info("Config saved.")
