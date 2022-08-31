@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class Movie:
-    def __init__(self, folder: str, bg_video: str = 'background.mp4'):
+    def __init__(self, folder: str, bg_video: str = "background.mp4"):
         self.folder = folder
         self.bg_video = bg_video
 
@@ -74,18 +74,18 @@ class Movie:
         self.audio = CompositeAudioClip(audio_sound)
         self.audio_duration = audio_duration
         self.audio_total_duration = int(sum(self.audio_duration.values()))
-    
+
     def create_bg_video(self):
         """Create background video based on length of audio."""
         logging.info("Creating background video.")
 
-        bg_clips = pathlib.Path(f"files/bg_clips/").glob('**/*mp4')
+        bg_clips = pathlib.Path(f"files/bg_clips/").glob("**/*mp4")
         bg_clips = [str(p) for p in bg_clips]
 
         logging.info(f"Number of background clips: {len(bg_clips)}")
 
         bg_clip_length = 0
-        while bg_clip_length < self.audio_total_duration + 10: # 10 second buffer
+        while bg_clip_length < self.audio_total_duration + 10:  # 10 second buffer
             random_int = random.randint(0, len(bg_clips) - 1)
             random_path = bg_clips[random_int]
 
@@ -97,20 +97,23 @@ class Movie:
             else:
                 combined_bg = concatenate_videoclips([combined_bg, bg])
                 bg_clip_length += int(combined_bg.duration)
-            
+
             logging.info(f"Using: {random_path}")
-            logging.info(f"Total background clip length: {bg_clip_length}")
-        
-        self.bg_video = combined_bg.set_end(self.audio_total_duration + 10) # 10 second buffer
+            logging.info(f"Current background clip length: {bg_clip_length}")
+
+        self.bg_video = combined_bg.set_end(
+            self.audio_total_duration + 10
+        )  # 10 second buffer
+        logging.info(f"Total background clip length: {self.bg_video.duration}")
 
     def create_movie(self):
         """Overlay text screenshots on background video."""
 
         logging.info("Overlaying text screenshots on background video.")
 
-        background = VideoFileClip(f"files/{self.folder}/{self.bg_video}", audio=False)
+        # background = VideoFileClip(f"files/{self.folder}/{self.bg_video}", audio=False)
 
-        img_path = pathlib.Path(f"files/{self.folder}/img").glob('**/*png')
+        img_path = pathlib.Path(f"files/{self.folder}/img").glob("**/*png")
         files = [str(p) for p in img_path]
         files.sort()
 
@@ -134,7 +137,7 @@ class Movie:
 
             text_clips.append(img)
 
-        movie = CompositeVideoClip([background] + text_clips)
+        movie = CompositeVideoClip([self.bg_video] + text_clips)
         self.movie = movie.set_audio(self.audio)
 
     def output_movie(self):

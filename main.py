@@ -22,7 +22,6 @@ if __name__ == "__main__":
 
     movie.create_bg_video()
 
-    
-    # movie.create_movie()
-    # movie.output_movie()
-    # movie.output_config()
+    movie.create_movie()
+    movie.output_movie()
+    movie.output_config()
