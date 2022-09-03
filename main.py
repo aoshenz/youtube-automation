@@ -2,6 +2,7 @@ import logging
 import utils as utils
 from utils import Movie
 import config
+import importlib
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -11,17 +12,23 @@ logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
 
-    movie = Movie(config.FOLDER, config.BACKGROUND_VIDEO)
+    logging.info(f"Number of folders: {len(config.TO_PROCESS)}")
 
-    movie.tts(config.TEXTS)
-    movie.append_audio()
+    for folder in config.TO_PROCESS:
+        print("\n\n")
+        logging.info(f"Working on {folder}.")
 
-    print(movie.audio_duration)
-    print("\n")
-    print(movie.audio_total_duration)
+        info = importlib.import_module(f"files.{folder}.info")
 
-    movie.create_bg_video()
+        movie = Movie(folder, info.TEXTS)
 
-    movie.create_movie()
-    movie.output_movie()
-    movie.output_config()
+        movie.checks()
+        movie.tts()
+        movie.append_audio()
+
+        print(movie.audio_total_duration)
+
+        movie.create_bg_video()
+
+        movie.create_movie()
+        movie.output_movie()

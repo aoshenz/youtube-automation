@@ -22,31 +22,41 @@ logger = logging.getLogger(__name__)
 
 
 class Movie:
-    def __init__(self, folder: str, bg_video: str = "background.mp4"):
+    def __init__(self, folder: str, text: list):
         self.folder = folder
-        self.bg_video = bg_video
+        self.text = text
 
-    def tts(self, text: list):
+    def checks(self):
+
+        # Check number of text parts = number of screenshots
+        img_path = pathlib.Path(f"files/{self.folder}/img").glob("**/*png")
+        img_path = [str(p) for p in img_path]
+        
+        if len(img_path) == len(self.text):
+            logging.info(f"Check passed: texts = images = {len(self.text)}")
+        else:
+            logging.error(f"ERROR: screenshots: {len(img_path)}, texts: {len(self.text)}")
+
+    def tts(self):
         """
         Create text-to-speech audio files for each iteration in list.
         """
+
+        self.num_audio = len(self.text)
+
         language = "en"
         domain = "com"
 
         pathlib.Path(f"files/{self.folder}/audio").mkdir(parents=True, exist_ok=True)
         output_folder = f"files/{self.folder}/audio"
 
-        logging.info(f"Creating {len(text)} audio clips.")
-
-        for i in range(len(text)):
-            audio = gTTS(text=text[i], tld=domain, lang=language, slow=False)
+        for i in range(self.num_audio):
+            audio = gTTS(text=self.text[i], tld=domain, lang=language, slow=False)
 
             output_file = f"{output_folder}/audio_{i}.mp3"
             audio.save(output_file)
 
         logging.info(f"Audio clips saved in {output_folder}")
-
-        self.num_audio = len(text)
 
     def append_audio(self):
         """Append all text to speech audio and record duration of each clip."""
@@ -82,7 +92,7 @@ class Movie:
         bg_clips = pathlib.Path(f"files/bg_clips/").glob("**/*mp4")
         bg_clips = [str(p) for p in bg_clips]
 
-        logging.info(f"Number of background clips: {len(bg_clips)}")
+        logging.info(f"Number of background clips to choose from: {len(bg_clips)}")
 
         bg_clip_length = 0
         while bg_clip_length < self.audio_total_duration + 10:  # 10 second buffer
@@ -98,13 +108,12 @@ class Movie:
                 combined_bg = concatenate_videoclips([combined_bg, bg])
                 bg_clip_length += int(combined_bg.duration)
 
-            logging.info(f"Using: {random_path}")
             logging.info(f"Current background clip length: {bg_clip_length}")
 
         self.bg_video = combined_bg.set_end(
             self.audio_total_duration + 10
         )  # 10 second buffer
-        logging.info(f"Total background clip length: {self.bg_video.duration}")
+        logging.info(f"Final background clip length: {self.bg_video.duration}")
 
     def create_movie(self):
         """Overlay text screenshots on background video."""
@@ -143,10 +152,10 @@ class Movie:
     def output_movie(self):
         """Output movie."""
 
-        logging.info(f"Outputting movie.")
+        logging.info(f"Creating movie.")
 
         self.movie.write_videofile(
-            f"files/{self.folder}/movie.mp4",
+            f"files/{self.folder}/{self.folder}.mp4",
             codec="libx264",
             audio_codec="aac",
             temp_audiofile="temp-audio.m4a",
@@ -158,12 +167,7 @@ class Movie:
 
         logging.info("Video saved.")
 
-    def output_config(self):
-        """Output config for reproducibility."""
+    def output_description(self):
+        """Output a file that reduces manual work when uploading to YouTube."""
 
-        logging.info(f"Outputting config.")
-
-        config_file = "config.py"
-        copy_config_file = f"files/{self.folder}/"
-        shutil.copy(config_file, copy_config_file)
-        logging.info("Config saved.")
+        pass
