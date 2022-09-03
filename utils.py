@@ -3,6 +3,7 @@ import pathlib
 import random
 from gtts import gTTS
 import shutil
+import sys
 
 from moviepy.editor import (
     CompositeVideoClip,
@@ -36,12 +37,14 @@ class Movie:
             logging.info(f"Check passed: texts = images = {len(self.text)}")
         else:
             logging.error(f"ERROR: screenshots: {len(img_path)}, texts: {len(self.text)}")
+            sys.exit()
 
     def tts(self):
         """
         Create text-to-speech audio files for each iteration in list.
         """
 
+        logging.info(f"Creating audio clips.")
         self.num_audio = len(self.text)
 
         language = "en"
@@ -56,7 +59,6 @@ class Movie:
             output_file = f"{output_folder}/audio_{i}.mp3"
             audio.save(output_file)
 
-        logging.info(f"Audio clips saved in {output_folder}")
 
     def append_audio(self):
         """Append all text to speech audio and record duration of each clip."""
@@ -84,18 +86,19 @@ class Movie:
         self.audio = CompositeAudioClip(audio_sound)
         self.audio_duration = audio_duration
         self.audio_total_duration = int(sum(self.audio_duration.values()))
+        self.movie_duration = self.audio_total_duration + 10
 
     def create_bg_video(self):
         """Create background video based on length of audio."""
         logging.info("Creating background video.")
 
-        bg_clips = pathlib.Path(f"files/bg_clips/").glob("**/*mp4")
+        bg_clips = pathlib.Path(f"files/bg_clips/").glob("**/*mov")
         bg_clips = [str(p) for p in bg_clips]
 
         logging.info(f"Number of background clips to choose from: {len(bg_clips)}")
 
         bg_clip_length = 0
-        while bg_clip_length < self.audio_total_duration + 10:  # 10 second buffer
+        while bg_clip_length < self.movie_duration:  # 10 second buffer
             random_int = random.randint(0, len(bg_clips) - 1)
             random_path = bg_clips[random_int]
 
@@ -111,7 +114,7 @@ class Movie:
             logging.info(f"Current background clip length: {bg_clip_length}")
 
         self.bg_video = combined_bg.set_end(
-            self.audio_total_duration + 10
+            self.movie_duration
         )  # 10 second buffer
         logging.info(f"Final background clip length: {self.bg_video.duration}")
 
@@ -130,15 +133,15 @@ class Movie:
         start_time = 0
         for f in range(len(files)):
 
-            clip_duration = self.audio_total_duration - start_time
-            x_pos = random.uniform(0.05, 0.3)
-            y_pos = random.uniform(0.05, 0.6)
+            clip_duration = self.movie_duration - start_time
+            x_pos = random.uniform(0.02, 0.4)
+            y_pos = random.uniform(0.02, 0.5)
 
             img = (
                 ImageClip(files[f])
                 .set_start(start_time)
                 .set_duration(clip_duration)
-                .resize(0.6)
+                .resize(0.62)
                 .set_position((x_pos, y_pos), "relative")
             )
 

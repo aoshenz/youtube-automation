@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
 
+    logging.info(f"Folders: {', '.join(config.TO_PROCESS)}")
     logging.info(f"Number of folders: {len(config.TO_PROCESS)}")
 
     for folder in config.TO_PROCESS:
@@ -26,9 +27,13 @@ if __name__ == "__main__":
         movie.tts()
         movie.append_audio()
 
-        print(movie.audio_total_duration)
+        print(f"{movie.audio_duration}")
+        print(f"{movie.audio_total_duration}")
+        print(f"{round(movie.audio_total_duration / 60, 2)} mins")
 
         movie.create_bg_video()
 
         movie.create_movie()
         movie.output_movie()
+
+    logging.info("All done!")
