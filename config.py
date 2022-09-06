@@ -1,4 +1,2 @@
 # List out the folders you want to make a video
-TO_PROCESS = [
-    "truck driver",
-    ]
+TO_PROCESS = ["party", "rabbithole", "fictional", "consistent"]

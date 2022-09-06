@@ -1,8 +1,9 @@
+import importlib
 import logging
+
+import config
 import utils as utils
 from utils import Movie
-import config
-import importlib
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO

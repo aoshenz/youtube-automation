@@ -1,19 +1,17 @@
 import logging
+import os
 import pathlib
 import random
-from gtts import gTTS
-import shutil
 import sys
 
+from google.cloud import texttospeech_v1
 from moviepy.editor import (
-    CompositeVideoClip,
-    TextClip,
-    VideoFileClip,
-    concatenate_videoclips,
-    ImageClip,
-    ImageSequenceClip,
     AudioFileClip,
     CompositeAudioClip,
+    CompositeVideoClip,
+    ImageClip,
+    VideoFileClip,
+    concatenate_videoclips,
 )
 
 logging.basicConfig(
@@ -32,11 +30,13 @@ class Movie:
         # Check number of text parts = number of screenshots
         img_path = pathlib.Path(f"files/{self.folder}/img").glob("**/*png")
         img_path = [str(p) for p in img_path]
-        
+
         if len(img_path) == len(self.text):
             logging.info(f"Check passed: texts = images = {len(self.text)}")
         else:
-            logging.error(f"ERROR: screenshots: {len(img_path)}, texts: {len(self.text)}")
+            logging.error(
+                f"ERROR: screenshots: {len(img_path)}, texts: {len(self.text)}"
+            )
             sys.exit()
 
     def tts(self):
@@ -45,20 +45,40 @@ class Movie:
         """
 
         logging.info(f"Creating audio clips.")
-        self.num_audio = len(self.text)
 
-        language = "en"
-        domain = "com"
+        self.num_audio = len(self.text)
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"secret/credentials.json"
 
         pathlib.Path(f"files/{self.folder}/audio").mkdir(parents=True, exist_ok=True)
         output_folder = f"files/{self.folder}/audio"
 
+        # Instantiates a client
+        client = texttospeech_v1.TextToSpeechClient()
+
+        voice = texttospeech_v1.VoiceSelectionParams(
+            # language_code="en-US", ssml_gender=texttospeech_v1.SsmlVoiceGender.NEUTRAL
+            name="en-US-Wavenet-M",
+            language_code="en-US"
+            # en-AU-Neural2-C
+        )
+
+        audio_config = texttospeech_v1.AudioConfig(
+            audio_encoding=texttospeech_v1.AudioEncoding.MP3
+        )
+
         for i in range(self.num_audio):
-            audio = gTTS(text=self.text[i], tld=domain, lang=language, slow=False)
 
-            output_file = f"{output_folder}/audio_{i}.mp3"
-            audio.save(output_file)
+            synthesis_input = texttospeech_v1.SynthesisInput(text=self.text[i])
 
+            response = client.synthesize_speech(
+                input=synthesis_input, voice=voice, audio_config=audio_config
+            )
+
+            # The response's audio_content is binary.
+            with open(f"{output_folder}/audio_{i}.mp3", "wb") as out:
+
+                # Write the response to the output file.
+                out.write(response.audio_content)
 
     def append_audio(self):
         """Append all text to speech audio and record duration of each clip."""
@@ -113,9 +133,7 @@ class Movie:
 
             logging.info(f"Current background clip length: {bg_clip_length}")
 
-        self.bg_video = combined_bg.set_end(
-            self.movie_duration
-        )  # 10 second buffer
+        self.bg_video = combined_bg.set_end(self.movie_duration)  # 10 second buffer
         logging.info(f"Final background clip length: {self.bg_video.duration}")
 
     def create_movie(self):

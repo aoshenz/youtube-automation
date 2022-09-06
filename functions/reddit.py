@@ -1,9 +1,10 @@
-import logging
-import praw
-import secret as secret
-import pandas as pd
 import datetime
+import logging
 
+import pandas as pd
+import praw
+
+import secret as secret
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
