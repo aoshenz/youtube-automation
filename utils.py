@@ -152,14 +152,14 @@ class Movie:
         for f in range(len(files)):
 
             clip_duration = self.movie_duration - start_time
-            x_pos = random.uniform(0.02, 0.4)
-            y_pos = random.uniform(0.02, 0.5)
+            x_pos = random.uniform(0, 0.3)
+            y_pos = random.uniform(0, 0.1)
 
             img = (
                 ImageClip(files[f])
                 .set_start(start_time)
                 .set_duration(clip_duration)
-                .resize(0.62)
+                .resize(1)
                 .set_position((x_pos, y_pos), "relative")
             )
 
