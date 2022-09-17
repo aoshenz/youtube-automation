@@ -1,4 +1,5 @@
 import logging
+import multiprocessing
 import os
 import pathlib
 import random
@@ -152,13 +153,13 @@ class Movie:
         for f in range(len(files)):
 
             clip_duration = self.movie_duration - start_time
-            x_pos = random.uniform(0, 0.3)
-            y_pos = random.uniform(0, 0.1)
+            x_pos = random.uniform(0.02, 0.3)
+            y_pos = random.uniform(0.02, 0.2)
 
             img = (
                 ImageClip(files[f])
                 .set_start(start_time)
-                .set_duration(clip_duration)
+                .set_duration(int(self.audio_duration[f]))
                 .resize(1)
                 .set_position((x_pos, y_pos), "relative")
             )
@@ -181,6 +182,7 @@ class Movie:
             audio_codec="aac",
             temp_audiofile="temp-audio.m4a",
             remove_temp=True,
+            threads=multiprocessing.cpu_count()
         )
 
         self.movie.close()

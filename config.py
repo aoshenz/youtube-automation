@@ -1,2 +1,2 @@
 # List out the folders you want to make a video
-TO_PROCESS = ["gaslight", "pwd", "ships", "snowden", "superpower"]
+TO_PROCESS = ["sleep"]
