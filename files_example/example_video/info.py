@@ -1,7 +1,9 @@
 # Content
 URL = "https://www.reddit.com/r/todayilearned/comments/ujoonz/til_in_2011_a_29yearold_australian_bartender/"
 
-TITLE = ["TIL in 2011, a 29-year-old Australian bartender found an ATM glitch that allowed him to withdraw way beyond his balance. In a bender that lasted four-and-half months, he managed to spend around $1.6 million of the bank’s money."]
+TITLE = [
+    "TIL in 2011, a 29-year-old Australian bartender found an ATM glitch that allowed him to withdraw way beyond his balance. In a bender that lasted four-and-half months, he managed to spend around $1.6 million of the bank’s money."
+]
 
 # Seperate each new "screenshot" with 2 line breaks i.e. \n\n
 TEXT = """

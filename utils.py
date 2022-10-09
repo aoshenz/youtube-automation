@@ -182,7 +182,7 @@ class Movie:
             audio_codec="aac",
             temp_audiofile="temp-audio.m4a",
             remove_temp=True,
-            threads=multiprocessing.cpu_count()
+            threads=multiprocessing.cpu_count(),
         )
 
         self.movie.close()
