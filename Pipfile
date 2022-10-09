@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 moviepy = "*"
+pip = "*"
+install = "*"
+google-cloud-texttospeech = "*"
 
 [dev-packages]
 
